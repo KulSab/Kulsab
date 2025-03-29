@@ -1,0 +1,1392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KULSAB</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Global Styles */
+        :root {
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --accent: #4cc9f0;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #4bb543;
+            --warning: #f0ad4e;
+            --danger: #d9534f;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #05FAE5, #FFFFFF, #06B6E7, #0B4B55);
+        }
+        
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            overflow-x: hidden;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color:linear-gradient(90deg,  #1193aa, #05FAE5);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            background: linear-gradient(90deg, #1193aa, #05FAE5);
+            transition: all 0.3s ease;
+        }
+        
+        header.scrolled {
+            background-color: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+        
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 30px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            bottom: -5px;
+            left: 0;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        .user-actions {
+            display: flex;
+            align-items: center;
+        }
+        
+        .search-bar {
+            position: relative;
+            margin-right: 20px;
+        }
+        
+        .search-bar input {
+            padding: 8px 15px;
+            border-radius: 20px;
+            border: 1px solid #ddd;
+            outline: none;
+            transition: all 0.3s ease;
+            width: 200px;
+        }
+        
+        .search-bar input:focus {
+            border-color: var(--primary);
+            width: 250px;
+        }
+        
+        .search-bar i {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #777;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            margin: 5px;
+            background-color: #000;
+            color: white;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-primary {
+            background-color:#212529;
+            color: rgb(255, 255, 255);
+            border: 2px solid var(--primary);
+        }
+        
+        .btn-primary:hover {
+            background-color: #7efff6;
+            color: #000;
+            border-color: var(--secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+        }
+        
+        .btn-outline {
+            background-color: #212529;
+            color: #f8f9fa;
+            border: 2px solid var(--primary);
+            margin-left: 10px;
+        }
+        
+        .btn-outline:hover {
+            background-color: #7efff6;
+            color: #000;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, rgba(67, 97, 238, 0.1) 0%, rgba(76, 201, 240, 0.1) 100%);
+            padding-top: 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slider {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .slide.active {
+            opacity: 1;
+        }
+        
+        .hero-content {
+            flex: 1;
+            padding-right: 50px;
+            animation: fadeInUp 1s ease;
+        }
+        
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+        
+        .hero p {
+            font-size: 18px;
+            color: #555;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        
+        .hero-image {
+            flex: 1;
+            position: relative;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .hero-image img {
+            max-width: 100%;
+            max-height: 80%;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .hero-bg-element {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(67, 97, 238, 0.1) 0%, rgba(76, 201, 240, 0.1) 100%);
+            z-index: -1;
+            animation: pulse 15s infinite alternate;
+        }
+        
+        .hero-bg-element:nth-child(1) {
+            top: -200px;
+            right: -200px;
+        }
+        
+        .hero-bg-element:nth-child(2) {
+            bottom: -150px;
+            left: -150px;
+            width: 400px;
+            height: 400px;
+            animation-delay: 2s;
+        }
+        
+        /* Features Section */
+        .features {
+            padding: 100px 0;
+            background-color: white;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .section-title h2 {
+            font-size: 36px;
+            color: var(--dark);
+            margin-bottom: 15px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 3px;
+            background-color: var(--primary);
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .section-title p {
+            color: #777;
+            font-size: 18px;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .feature-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            text-align: center;
+            border: 1px solid #eee;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            border-color: var(--primary);
+        }
+        
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background-color: rgba(67, 97, 238, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 30px;
+            color: var(--primary);
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover .feature-icon {
+            background-color: var(--primary);
+            color: white;
+            transform: rotateY(180deg);
+        }
+        
+        .feature-card h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+        }
+        
+        .feature-card p {
+            color: #777;
+            line-height: 1.6;
+        }
+        
+        /* Platform Sections */
+        .platform-section {
+            padding: 100px 0;
+        }
+        
+        .platform-section:nth-child(odd) {
+            background-color: #f9f9f9;
+        }
+        
+        .platform-content {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+        
+        .platform-text {
+            flex: 1;
+        }
+        
+        .platform-image {
+            flex: 1;
+            position: relative;
+        }
+        
+        .platform-image img {
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            transition: all 0.5s ease;
+        }
+        
+        .platform-image:hover img {
+            transform: scale(1.03);
+        }
+        
+        .platform-image::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 2px dashed var(--primary);
+            border-radius: 10px;
+            display: none;
+            left: 20px;
+            z-index: -1;
+            opacity: 0.5;
+        }
+        
+        .platform-text h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            color: var(--dark);
+        }
+        
+        .platform-text p {
+            color: #555;
+            margin-bottom: 30px;
+            line-height: 1.6;
+            font-size: 18px;
+        }
+        
+        .feature-list {
+            margin-bottom: 30px;
+        }
+        
+        .feature-list li {
+            margin-bottom: 15px;
+            list-style: none;
+            display: flex;
+            align-items: center;
+        }
+        
+        .feature-list li::before {
+            content: '\f00c';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            color: var(--success);
+            margin-right: 10px;
+        }
+        
+        /* Pricing Section */
+        .pricing {
+            padding: 100px 0;
+            background-color: white;
+        }
+        
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        
+        .pricing-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 40px 30px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            text-align: center;
+            border: 1px solid #eee;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .pricing-card.popular {
+            border: 2px solid var(--primary);
+            transform: scale(1.05);
+        }
+        
+        .pricing-card.popular::after {
+            content: 'Popular';
+            position: absolute;
+            top: 15px;
+            right: -30px;
+            background-color: var(--primary);
+            color: white;
+            padding: 5px 30px;
+            transform: rotate(45deg);
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .pricing-card h3 {
+            font-size: 22px;
+            margin-bottom: 20px;
+        }
+        
+        .price {
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+        
+        .price span {
+            font-size: 16px;
+            font-weight: normal;
+            color: #777;
+        }
+        
+        .pricing-features {
+            margin-bottom: 30px;
+        }
+        
+        .pricing-features li {
+            margin-bottom: 15px;
+            list-style: none;
+            color: #555;
+        }
+        
+        /* Testimonials */
+        .testimonials {
+            padding: 100px 0;
+            background-color: #f9f9f9;
+        }
+        
+        .testimonial-slider {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        .testimonial-slide {
+            background-color: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            display: none;
+        }
+        
+        .testimonial-slide.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .testimonial-content {
+            font-size: 18px;
+            font-style: italic;
+            color: #555;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .testimonial-author img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 15px;
+        }
+        
+        .author-info h4 {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+        
+        .author-info p {
+            color: #777;
+            font-size: 14px;
+        }
+        
+        .testimonial-nav {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+        }
+        
+        .testimonial-nav button {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: none;
+            background-color: #ddd;
+            margin: 0 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .testimonial-nav button.active {
+            background-color: var(--primary);
+            transform: scale(1.2);
+        }
+        
+        /* CTA Section */
+        .cta {
+            padding: 100px 0;
+            background: linear-gradient(135deg, #1193aa, #05FAE5);
+            color: white;
+            text-align: center;
+        }
+        
+        .cta h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+        
+        .cta p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            opacity: 0.9;
+        }
+        
+        .cta .btn {
+            background-color: rgb(0, 0, 0);
+            color: #FFFFFF;
+            font-size: 18px;
+            padding: 15px 30px;
+        }
+        
+        .cta .btn:hover {
+            background-color: #7efff6;
+            color: #000;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .words {
+            color: #000;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 80px 0 30px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+        
+        .footer-column h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 2px;
+            background-color: var(--primary);
+            bottom: 0;
+            left: 0;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-column ul li a {
+            color: #bbb;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-column ul li a:hover {
+            color: white;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            background-color: var(--primary);
+            transform: translateY(-3px);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #bbb;
+            font-size: 14px;
+        }
+        
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+            100% {
+                transform: translateY(0px);
+            }
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 0.5;
+            }
+            100% {
+                transform: scale(1.2);
+                opacity: 0.8;
+            }
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .hero-content {
+                padding-right: 0;
+            }
+            
+            .platform-content {
+                flex-direction: column;
+            }
+            
+            .platform-text, .platform-image {
+                flex: none;
+                width: 100%;
+            }
+            
+            .platform-image {
+                margin-top: 40px;
+            }
+            
+            .platform-section:nth-child(even) .platform-content {
+                flex-direction: column;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                top: 80px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 80px);
+                background-color: white;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                transition: all 0.5s ease;
+                z-index: 999;
+            }
+            
+            .nav-links.active {
+                left: 0;
+            }
+            
+            .nav-links li {
+                margin: 15px 0;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .search-bar {
+                display: none;
+            }
+            
+            .hero {
+                flex-direction: column;
+                text-align: center;
+                padding-top: 120px;
+                height: auto;
+                padding-bottom: 80px;
+            }
+            
+            .hero-content {
+                margin-bottom: 50px;
+            }
+            
+            .hero h1 {
+                font-size: 36px;
+            }
+            
+            .hero p {
+                font-size: 16px;
+            }
+            
+            .section-title h2 {
+                font-size: 30px;
+            }
+            
+            .platform-text h2 {
+                font-size: 30px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .btn {
+                padding: 8px 15px;
+                font-size: 14px;
+            }
+            
+            .hero h1 {
+                font-size: 30px;
+            }
+            
+            .features-grid, .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .pricing-card.popular {
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header id="header">
+        <div class="container">
+            <nav class="navbar">
+                <a href="home.html" class="logo">
+                    <img src="assets/Vector 27.png" alt="Kulsab">
+                     <!-- KULSAB -->
+                </a>
+                
+                <ul class="nav-links" style="color: rgb(0, 0, 0);">
+                    <li><a href="home.html" style="color: rgb(0, 0, 0);">Home</a></li>
+                    <li><a href="#store" style="color: rgb(0, 0, 0);">Create Store</a></li>
+                    <li><a href="#community" style="color: rgb(0, 0, 0);">Community</a></li>
+                    <li><a href="#social" style="color: rgb(6, 0, 0);">Social Media</a></li>
+                    <li><a href="#services" style="color: rgb(0, 0, 0);">Services</a></li>
+                </ul>
+                
+                <div class="user-actions">
+                    <div class="search-bar">
+                        <input type="text" placeholder="Search...">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <a href="launching.html" class="btn btn-outline">Login</a>
+                    <a href="launching.html" class="btn btn-primary">Sign Up</a>
+                    <div class="mobile-menu-btn">
+                        <i class="fas fa-bars"></i>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="slider">
+            <div class="slide active" style="background-image: url('https://static.vecteezy.com/system/resources/previews/030/556/486/original/abstract-mountain-landscape-poster-nature-wall-decor-contemporary-art-print-mid-century-background-illustration-vector.jpg');"></div>
+            <div class="slide" style="background-image: url('https://static.vecteezy.com/system/resources/previews/013/177/892/original/landscape-abstract-creative-background-in-minimal-trendy-style-abstract-mountain-landscape-poster-background-for-presentation-design-architecture-abstract-background-shapes-illustration-free-vector.jpg');"></div>
+            <div class="slide" style="background-image: url('https://static.vecteezy.com/system/resources/previews/013/177/894/original/landscape-abstract-creative-background-in-minimal-trendy-style-abstract-mountain-landscape-poster-background-for-presentation-design-architecture-abstract-background-shapes-illustration-free-vector.jpg');"></div>
+        </div>
+        <div class="container">
+            <div class="hero-content">
+                <h1>All-In-One Platform for Your Digital Needs</h1>
+                <p style="color: black;">Create your online store, build communities, connect socially, and offer services - all in one powerful platform designed to grow your business and online presence.</p>
+                <div class="hero-buttons">
+                    <a href="#" class="btn btn-primary">Get Started Free</a>
+                    <a href="#" class="btn btn-outline">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <div class="section-title">
+                <h2>Why Choose Our Platform</h2>
+                <p>We provide everything you need to establish and grow your online presence with ease</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-store"></i>
+                    </div>
+                    <h3>Easy Store Creation</h3>
+                    <p>Launch your online store in minutes with our drag-and-drop builder and powerful e-commerce tools.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Vibrant Communities</h3>
+                    <p>Create and manage communities around your brand or interests with advanced engagement tools.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-share-alt"></i>
+                    </div>
+                    <h3>Social Networking</h3>
+                    <p>Connect with your audience through our integrated social media features and content sharing.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-concierge-bell"></i>
+                    </div>
+                    <h3>Service Marketplace</h3>
+                    <p>Offer and book services with our complete management system including payments and scheduling.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Powerful Analytics</h3>
+                    <p>Get detailed insights about your store, community, and social performance all in one dashboard.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3>Mobile Optimized</h3>
+                    <p>Everything works perfectly on any device with our fully responsive design and mobile apps.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Store Creation Section -->
+    <section class="platform-section" id="store">
+        <div class="container">
+            <div class="platform-content">
+                <div class="platform-text">
+                    <h2>Create Your Online Store</h2>
+                    <p>Launch your e-commerce business quickly with our intuitive store builder. No coding required - just focus on your products and customers.</p>
+                    
+                    <ul class="feature-list">
+                        <li>Drag-and-drop store builder with beautiful templates</li>
+                        <li>Unlimited products and variants</li>
+                        <li>Secure payment gateways integrated</li>
+                        <li>Inventory and order management</li>
+                        <li>Marketing and SEO tools built-in</li>
+                        <li>Mobile-responsive design</li>
+                    </ul>
+                    
+                    <a href="" class="btn btn-primary">Start Your Store Now</a>
+                </div>
+                
+                <div class="platform-image">
+                    <img src="assets/store.jpg" alt="Store Builder Interface">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Community Section -->
+    <section class="platform-section" id="community">
+        <div class="container">
+            <div class="platform-content">
+                <div class="platform-image">
+                    <img src="assets/community.jpg" alt="Community Features">
+                </div>
+                
+                <div class="platform-text">
+                    <h2>Build Your Community</h2>
+                    <p>Create engaged communities around your brand, interests, or services with our powerful community tools.</p>
+                    
+                    <ul class="feature-list">
+                        <li>Public or private communities</li>
+                        <li>Discussion forums and threads</li>
+                        <li>Member management and roles</li>
+                        <li>Event calendar and RSVPs</li>
+                        <li>Monetization options</li>
+                        <li>Analytics and growth tools</li>
+                    </ul>
+                    
+                    <a href="#" class="btn btn-primary">Start a Community</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Media Section -->
+    <section class="platform-section" id="social">
+        <div class="container">
+            <div class="platform-content">
+                <div class="platform-text">
+                    <h2>Social Media Integration</h2>
+                    <p>Connect with your audience through our social features while maintaining control of your content and data.</p>
+                    
+                    <ul class="feature-list">
+                        <li>Personal and business profiles</li>
+                        <li>Content sharing (text, images, video)</li>
+                        <li>Engagement analytics</li>
+                        <li>Direct messaging</li>
+                        <li>Cross-posting to other platforms</li>
+                        <li>Hashtag and discovery tools</li>
+                    </ul>
+                    
+                    <a href="#" class="btn btn-primary">Explore Social Features</a>
+                </div>
+                
+                <div class="platform-image">
+                    <img src="assets/social media.png" alt="Social Media Features">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="platform-section" id="services">
+        <div class="container">
+            <div class="platform-content">
+                <div class="platform-image">
+                    <img src="assets/services.jpg" alt="Services Marketplace">
+                </div>
+                
+                <div class="platform-text">
+                    <h2>Offer Your Services</h2>
+                    <p>Whether you're a freelancer, consultant, or local business, our platform helps you connect with clients.</p>
+                    
+                    <ul class="feature-list">
+                        <li>Service listing creation</li>
+                        <li>Booking and scheduling system</li>
+                        <li>Secure payments</li>
+                        <li>Reviews and ratings</li>
+                        <li>Service provider profiles</li>
+                        <li>Client management tools</li>
+                    </ul>
+                    
+                    <a href="#" class="btn btn-primary">List Your Services</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing">
+        <div class="container">
+            <div class="section-title">
+                <h2>Simple, Transparent Pricing</h2>
+                <p>Choose the plan that fits your needs. No hidden fees, cancel anytime.</p>
+            </div>
+            
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <h3>Starter</h3>
+                    <div class="price">$0<span>/month</span></div>
+                    <ul class="pricing-features">
+                        <li>Basic store features</li>
+                        <li>1 community</li>
+                        <li>Limited social features</li>
+                        <li>5 service listings</li>
+                        <li>Basic analytics</li>
+                        <li>Community support</li>
+                    </ul>
+                    <a href="#" class="btn btn-outline">Get Started</a>
+                </div>
+                
+                <div class="pricing-card popular">
+                    <h3>Professional</h3>
+                    <div class="price">$29<span>/month</span></div>
+                    <ul class="pricing-features">
+                        <li>Advanced store features</li>
+                        <li>5 communities</li>
+                        <li>Full social features</li>
+                        <li>Unlimited service listings</li>
+                        <li>Advanced analytics</li>
+                        <li>Priority support</li>
+                    </ul>
+                    <a href="#" class="btn btn-primary">Get Started</a>
+                </div>
+                
+                <div class="pricing-card">
+                    <h3>Enterprise</h3>
+                    <div class="price">$99<span>/month</span></div>
+                    <ul class="pricing-features">
+                        <li>All professional features</li>
+                        <li>Unlimited communities</li>
+                        <li>White-label options</li>
+                        <li>API access</li>
+                        <li>Dedicated account manager</li>
+                        <li>24/7 premium support</li>
+                    </ul>
+                    <a href="#" class="btn btn-outline">Get Started</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials">
+        <div class="container">
+            <div class="section-title">
+                <h2>What we Say</h2>
+                <p>Your Business Playground</p>
+            </div>
+            
+            <div class="testimonial-slider">
+                <div class="testimonial-slide active">
+                    <p class="testimonial-content">"Design is not about what you see; it's about how you make people feel"</p>
+                    <div class="testimonial-author">
+                        <img src="assets/user.png" alt="Sarah Johnson">
+                        <div class="author-info">
+                            <h4>Harsh Raj</h4>
+                            <p>Designer</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-slide">
+                    <p class="testimonial-content">"Management is nothing more than motivating other people"</p>
+                    <div class="testimonial-author">
+                        <img src="assets/user.png" alt="Michael Chen">
+                        <div class="author-info">
+                            <h4>Priyanshu Sinha</h4>
+                            <p>Management</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-slide">
+                    <p class="testimonial-content">"Code is like humor. When you have to explain it, it's bad"</p>
+                    <div class="testimonial-author">
+                        <img src="assets/user.png" alt="Emily Rodriguez">
+                        <div class="author-info">
+                            <h4>Madhav Kumar</h4>
+                            <p>Tech Enthusiast</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-nav">
+                    <button class="active"></button>
+                    <button></button>
+                    <button></button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="words">
+            <h2>Ready to Transform Your Online Presence?</h2>
+            <p>Join thousands of businesses and creators who are growing with OmniPlatform. Start your free trial today - no credit card required.</p>
+            <a href="#" class="btn">Start Your Free Trial</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Kulsab</h3>
+                    <p>All-in-one platform for e-commerce, community building, social networking, and service offerings.</p>
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/share/14rtVRQzbD/"><i class="fab fa-facebook-f"></i></a>
+                        <a href=""><i class="fab fa-twitter"></i></a>
+                        <a href="https://www.instagram.com/kulsabmhp?igsh=MTh3czdmMTVtajVsaw=="><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="https://youtube.com/@kulsab?si=fxvKUwhiwWfWuC55"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Features</h3>
+                    <ul>
+                        <li><a href="#">Create Store</a></li>
+                        <li><a href="#">Build Community</a></li>
+                        <li><a href="#">Social Networking</a></li>
+                        <li><a href="#">Service Marketplace</a></li>
+                        <li><a href="#">Analytics Dashboard</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Resources</h3>
+                    <ul>
+                        <li><a href="#">Documentation</a></li>
+                        <li><a href="#">Tutorials</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Webinars</a></li>
+                        <li><a href="#">API Reference</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Company</h3>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">Press</a></li>
+                        <li><a href="#">Partners</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Legal</h3>
+                    <ul>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Cookie Policy</a></li>
+                        <li><a href="#">GDPR</a></li>
+                        <li><a href="#">CCPA</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 Kulsab. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const navLinks = document.querySelector('.nav-links');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            mobileMenuBtn.innerHTML = navLinks.classList.contains('active') ? 
+                '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+        });
+        
+        // Header Scroll Effect
+        const header = document.getElementById('header');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+        
+        // Testimonial Slider
+        const testimonialSlides = document.querySelectorAll('.testimonial-slide');
+        const testimonialNavButtons = document.querySelectorAll('.testimonial-nav button');
+        let currentSlide = 0;
+        
+        function showSlide(index) {
+            testimonialSlides.forEach(slide => slide.classList.remove('active'));
+            testimonialNavButtons.forEach(button => button.classList.remove('active'));
+            
+            testimonialSlides[index].classList.add('active');
+            testimonialNavButtons[index].classList.add('active');
+            currentSlide = index;
+        }
+        
+        testimonialNavButtons.forEach((button, index) => {
+            button.addEventListener('click', () => {
+                showSlide(index);
+            });
+        });
+        
+        // Auto-rotate testimonials
+        setInterval(() => {
+            let nextSlide = (currentSlide + 1) % testimonialSlides.length;
+            showSlide(nextSlide);
+        },3000);
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile menu if open
+                    if (navLinks.classList.contains('active')) {
+                        navLinks.classList.remove('active');
+                        mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+                    }
+                }
+            });
+        });
+        
+        // Animation on scroll
+        function animateOnScroll() {
+            const elements = document.querySelectorAll('.platform-content, .feature-card, .pricing-card, .section-title');
+            
+            elements.forEach(element => {
+                const elementPosition = element.getBoundingClientRect().top;
+                const screenPosition = window.innerHeight / 1.2;
+                
+                if (elementPosition < screenPosition) {
+                    element.style.opacity = '1';
+                    element.style.transform = 'translateY(0)';
+                }
+            });
+        }
+        
+        // Set initial state for animated elements
+        document.querySelectorAll('.platform-content, .feature-card, .pricing-card, .section-title').forEach(element => {
+            element.style.opacity = '0';
+            element.style.transform = 'translateY(20px)';
+            element.style.transition = 'all 0.6s ease';
+        });
+        
+        window.addEventListener('scroll', animateOnScroll);
+        window.addEventListener('load', animateOnScroll);
+
+        const slides = document.querySelectorAll('.slide');
+        let currentSlideIndex = 0;
+
+        function showNextSlide() {
+            slides[currentSlideIndex].classList.remove('active');
+            currentSlideIndex = (currentSlideIndex + 1) % slides.length;
+            slides[currentSlideIndex].classList.add('active');
+        }
+
+        setInterval(showNextSlide, 5000);
+    </script>
+</body>
+</html>

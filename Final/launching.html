@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KulSab - Coming Soon</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            background: linear-gradient(45deg, #0f2027, #203a43, #2c5364);
+            background-size: 400% 400%;
+            animation: gradientBG 10s ease infinite;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .container {
+            opacity: 0;
+            animation: fadeIn 2s forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        h1 {
+            font-size: 4rem;
+            font-weight: bold;
+        }
+        p {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+        .countdown {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .glow-button {
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            background: #ff6600;
+            border: none;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+            box-shadow: 0 0 10px #ff6600;
+            transition: 0.3s;
+        }
+        .glow-button:hover {
+            box-shadow: 0 0 20px #bdca06;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="fade-in">KulSab</h1>
+        <p class="fade-in delay">We are launching soon!</p>
+        <div id="countdown" class="countdown"></div>
+        <button class="glow-button" onclick="requestNotificationPermission()">Notify Me</button>
+    </div>
+    <script>
+        function countdown() {
+            const launchDate = new Date("April 30, 2025 00:00:00").getTime();
+            const interval = setInterval(() => {
+                const now = new Date().getTime();
+                const timeLeft = launchDate - now;
+                if (timeLeft < 0) {
+                    document.getElementById("countdown").innerHTML = "We are live!";
+                    clearInterval(interval);
+                    sendNotification("KulSab is now live! Visit us now.");
+                    return;
+                }
+                const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+                document.getElementById("countdown").innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+            }, 1000);
+        }
+        
+        function requestNotificationPermission() {
+            if ("Notification" in window) {
+                Notification.requestPermission().then(permission => {
+                    if (permission === "granted") {
+                        sendNotification("You will be notified when we launch!");
+                    }
+                });
+            }
+        }
+        
+        function sendNotification(message) {
+            if ("Notification" in window && Notification.permission === "granted") {
+                new Notification("KulSab Update", { body: message, icon: "https://via.placeholder.com/100" });
+            }
+        }
+        
+        countdown();
+    </script>
+</body>
+</html>
